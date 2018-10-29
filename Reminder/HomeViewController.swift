@@ -12,7 +12,7 @@ protocol ViewControllerProtocol: class {
     func reloadView(with displayData: [ReminderList])
 }
 
-class HomeViewController: HorizontalCollectionViewController {
+class HomeViewController: VerticalCollectionViewController {
 
     public var presenter: PresenterProtocol
     

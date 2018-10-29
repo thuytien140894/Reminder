@@ -25,6 +25,8 @@
 		E8E128392186A2C900916B9C /* HorizontalCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E128382186A2C900916B9C /* HorizontalCollectionViewController.swift */; };
 		E8E1283D2186A2EB00916B9C /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E1283C2186A2EB00916B9C /* CollectionViewController.swift */; };
 		E8E128432186A55600916B9C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E8E128422186A55600916B9C /* GoogleService-Info.plist */; };
+		E8E62E012186B160007414F5 /* CollectionDynamicLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E62E002186B160007414F5 /* CollectionDynamicLayout.swift */; };
+		E8E62E032186B166007414F5 /* VerticalCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E62E022186B166007414F5 /* VerticalCollectionViewController.swift */; };
 		F09A0985CBF54DA897577736 /* Pods_ReminderUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CDFED8A5DB9F13F25645CBF /* Pods_ReminderUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +79,8 @@
 		E8E128382186A2C900916B9C /* HorizontalCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalCollectionViewController.swift; sourceTree = "<group>"; };
 		E8E1283C2186A2EB00916B9C /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		E8E128422186A55600916B9C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E8E62E002186B160007414F5 /* CollectionDynamicLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDynamicLayout.swift; sourceTree = "<group>"; };
+		E8E62E022186B166007414F5 /* VerticalCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerticalCollectionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,11 +165,13 @@
 				E8E128272186A19D00916B9C /* HomeInteractor.swift */,
 				E8E128292186A19D00916B9C /* HomePresenter.swift */,
 				E8E128262186A19D00916B9C /* HomeViewController.swift */,
+				E8E62E002186B160007414F5 /* CollectionDynamicLayout.swift */,
 				E8E128242186A17100916B9C /* AppLauncher.swift */,
 				E8E128302186A1B000916B9C /* HomeWireframe.swift */,
 				E8E128322186A2B200916B9C /* ReminderCell.swift */,
 				E8E1283C2186A2EB00916B9C /* CollectionViewController.swift */,
 				E8E128342186A2B900916B9C /* ReminderDetailViewController.swift */,
+				E8E62E022186B166007414F5 /* VerticalCollectionViewController.swift */,
 				E8E128382186A2C900916B9C /* HorizontalCollectionViewController.swift */,
 				E8E1282E2186A1A400916B9C /* Reminder.swift */,
 				E8E127FD2186A0BD00916B9C /* Assets.xcassets */,
@@ -445,7 +451,9 @@
 				E8E1282C2186A19D00916B9C /* HomeDataManager.swift in Sources */,
 				E8E128392186A2C900916B9C /* HorizontalCollectionViewController.swift in Sources */,
 				E8E1282A2186A19D00916B9C /* HomeViewController.swift in Sources */,
+				E8E62E012186B160007414F5 /* CollectionDynamicLayout.swift in Sources */,
 				E8E1282F2186A1A400916B9C /* Reminder.swift in Sources */,
+				E8E62E032186B166007414F5 /* VerticalCollectionViewController.swift in Sources */,
 				E8E128362186A2BA00916B9C /* ReminderDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
