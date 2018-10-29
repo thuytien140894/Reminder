@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 protocol AppLauncherProtocol {
     func launch(for window: UIWindow?)
@@ -18,6 +19,7 @@ class AppLauncher {
     
     init() {
         
+        FirebaseApp.configure()
         configureDependencies()
     }
     
