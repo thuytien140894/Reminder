@@ -20,7 +20,7 @@ class CollectionDynamicLayout: UICollectionViewLayout {
     private let numberOfColumns = 1
     private let cellPadding: CGFloat = 6
     private var layoutAttributes = [UICollectionViewLayoutAttributes]()
-    private var columnWidth: CGFloat  {
+    private var columnWidth: CGFloat {
         return contentWidth / CGFloat(numberOfColumns)
     }
     

@@ -60,7 +60,6 @@ extension CollectionView: UICollectionViewDelegate {
      }
      */
     
-    
      func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         
         return true

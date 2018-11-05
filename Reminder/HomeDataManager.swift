@@ -9,7 +9,7 @@
 import FirebaseFirestore
 
 protocol DataManagerProtocol {
-    func fetchReminderLists(completion: @escaping ([ReminderList]) -> ())
+    func fetchReminderLists(completion: @escaping ([ReminderList]) -> Void)
     func fetchReminders(in reminderList: ReminderList)
     func addUser(_ user: ReminderUser)
     func addReminderList(_ reminderList: ReminderList)
@@ -54,12 +54,12 @@ class HomeDataManager {
 
 extension HomeDataManager: DataManagerProtocol {
     
-    func fetchReminderLists(completion: @escaping ([ReminderList]) -> ()) {
+    func fetchReminderLists(completion: @escaping ([ReminderList]) -> Void) {
         
         let currentUserName = HomeDataManager.currentUser.name
         let currentUserDocument = userCollection.document(currentUserName)
         let reminderListCollection = getReminderLists(for: currentUserDocument)
-        reminderListCollection.getDocuments { (querySnapshot, error) in
+        reminderListCollection.getDocuments { (querySnapshot, _) in
             guard let querySnapshot = querySnapshot else { return }
             
             let reminderLists = querySnapshot.documents.compactMap { document in
@@ -76,7 +76,7 @@ extension HomeDataManager: DataManagerProtocol {
         let reminderListDocument = reminderListCollection.document(reminderListID)
         let reminderCollection = getReminders(for: reminderListDocument)
         
-        reminderCollection.getDocuments { (querySnapshot, error) in
+        reminderCollection.getDocuments { (querySnapshot, _) in
             guard let querySnapshot = querySnapshot else { return }
             
             let reminders = querySnapshot.documents.map { document in

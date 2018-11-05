@@ -22,8 +22,5 @@ class ReminderDetailViewController: UIViewController {
         view.backgroundColor = .white
     }
     
-    private func setupNavigationBar() {
-        
-        
-    }
+    private func setupNavigationBar() {}
 }

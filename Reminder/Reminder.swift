@@ -77,4 +77,3 @@ struct ReminderUser {
     
     var name: String
 }
-
