@@ -25,6 +25,10 @@ class HomeDataManager {
     
     init() {
         
+        let settings = database.settings
+        settings.areTimestampsInSnapshotsEnabled = true
+        database.settings = settings
+        
         reminderListCollection = database.collection("reminderLists")
         userCollection = database.collection("users")
         
@@ -97,7 +101,7 @@ extension HomeDataManager: DataManagerProtocol {
         let reminderListID = getID(for: reminderList)
         let reminderListCollection = getReminderLists(for: userDocument)
         let reminderListDocument = reminderListCollection.document(reminderListID)
-        reminderListDocument.setData(["title": reminderList.title])
+        reminderListDocument.setData(reminderList.jsonObject)
     }
     
     func addReminder(_ reminder: Reminder, to reminderList: ReminderList) {

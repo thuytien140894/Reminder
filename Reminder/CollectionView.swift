@@ -1,5 +1,5 @@
 //
-//  CollectionViewController.swift
+//  CollectionView.swift
 //  Starter
 //
 //  Created by Tien Thuy Ho on 10/20/18.
@@ -8,41 +8,30 @@
 
 import UIKit
 
-enum CollectionViewLayout {
-    case vertical
-    case horizontal
-}
+class CollectionView: UICollectionView {
 
-class CollectionViewController: UIViewController {
-
-    private let reuseIdentifier = "Cell"
-    let numberOfCells = 10
-    var collectionView: UICollectionView?
-    var collectionLayout: UICollectionViewLayout?
+    var reuseIdentifier = "Cell"
+    var numberOfCells = 10
     
-    override func viewDidLoad() {
+    init(frame: CGRect) {
         
-        super.viewDidLoad()
+        super.init(frame: frame, collectionViewLayout: UICollectionViewLayout())
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        setupCollectionView()
+        setupCollectionViewLayout()
+        register(ReminderCell.self, forCellWithReuseIdentifier: ReminderCell.reuseIdentifier)
+        dataSource = self
+        delegate = self
     }
     
-    func setupCollectionView() {
+    func setupCollectionViewLayout() { }
+    
+    required init?(coder aDecoder: NSCoder) {
         
-        collectionView?.backgroundColor = .white
-        collectionView?.register(ReminderCell.self, forCellWithReuseIdentifier: ReminderCell.reuseIdentifier)
-        collectionView?.dataSource = self
-        collectionView?.delegate = self
-        
-        guard let collectionView = collectionView else { return }
-        view.addSubview(collectionView)
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
-extension CollectionViewController: UICollectionViewDataSource {
+extension CollectionView: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
 
@@ -56,13 +45,13 @@ extension CollectionViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReminderCell.reuseIdentifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
 
         return cell
     }
 }
 
-extension CollectionViewController: UICollectionViewDelegate {
+extension CollectionView: UICollectionViewDelegate {
     
     /*
      // Uncomment this method to specify if the specified item should be highlighted during tracking
@@ -91,9 +80,4 @@ extension CollectionViewController: UICollectionViewDelegate {
      
      }
      */
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        navigationController?.pushViewController(ReminderDetailViewController(), animated: true)
-    }
 }

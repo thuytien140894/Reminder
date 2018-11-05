@@ -43,15 +43,33 @@ extension Reminder {
 struct ReminderList {
     
     var title: String
+    var taskCount: Int
+    var doneTaskCount: Int
+    
+    var jsonObject: [String: Any] {
+        
+        return [
+            "title": title,
+            "taskCount": taskCount,
+            "doneTaskCount": doneTaskCount
+        ]
+    }
 }
 
 extension ReminderList {
     
     init?(jsonObject: [String: Any]) {
         
-        guard let title = jsonObject["title"] as? String else { return nil }
+        guard let title = jsonObject["title"] as? String,
+            let taskCount = jsonObject["taskCount"] as? Int,
+            let doneTaskCount = jsonObject["doneTaskCount"] as? Int else { return nil }
         
-        self.init(title: title)
+        self.init(title: title, taskCount: taskCount, doneTaskCount: doneTaskCount)
+    }
+    
+    init(title: String) {
+        
+        self.init(title: title, taskCount: 0, doneTaskCount: 0)
     }
 }
 
