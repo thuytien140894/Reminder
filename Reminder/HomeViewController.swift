@@ -12,20 +12,23 @@ protocol ViewControllerProtocol: class {
     func reloadView(with displayData: [ReminderList])
 }
 
+protocol ViewControllerNavigable: class {
+    func selectItem(at index: Int)
+}
+
 class HomeViewController: UIViewController {
 
     public var presenter: PresenterProtocol
+    private lazy var reminderListCollectionViewController = PagedHorizontalCollectionViewController()
     
-    // MARK: - UI Properties
-    
-    private lazy var collectionView = {
-        return HorizontalCollectionView(frame: view.bounds)
-    }()
+    private struct UIConstants {
+        static let collectionViewHeightRatio: CGFloat = 0.65
+        static let welcomeLabelBottomInset: CGFloat = 50
+    }
     
     init(presenter: PresenterProtocol) {
         
         self.presenter = presenter
-        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -52,34 +55,34 @@ class HomeViewController: UIViewController {
 
     private func setupUI() {
         
-        setupCollectionView()
-        setupLabel()
+        setupReminderListCollectionView()
+        setupWelcomeLabel()
     }
     
-    private func setupCollectionView() {
+    private func setupReminderListCollectionView() {
         
-        collectionView.backgroundColor = .red
-        collectionView.setCellHeight(ratioToWidth: 1.25)
-        collectionView.reuseIdentifier = ReminderCell.reuseIdentifier
-        
-        view.addSubview(collectionView)
-        setupCollectionViewConstraints()
+        addChild(reminderListCollectionViewController)
+        view.addSubview(reminderListCollectionViewController.view)
+        reminderListCollectionViewController.didMove(toParent: self)
+        reminderListCollectionViewController.register(cellClass: ReminderCell.self, withReuseIdentifier: ReminderCell.reuseIdentifier)
+        setupReminderListCollectionViewConstraints()
     }
     
-    private func setupCollectionViewConstraints() {
+    private func setupReminderListCollectionViewConstraints() {
         
+        guard let collectionView = reminderListCollectionViewController.view else { return }
         let collectionViewConstraints = [
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.65),
-            collectionView.widthAnchor.constraint(equalTo: view.widthAnchor)
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: UIConstants.collectionViewHeightRatio)
         ]
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(collectionViewConstraints)
     }
     
-    private func setupLabel() {
+    private func setupWelcomeLabel() {
         
         let label = UILabel()
         label.text = "Hello world"
@@ -87,7 +90,7 @@ class HomeViewController: UIViewController {
         
         let constraints = [
             label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -50)
+            label.bottomAnchor.constraint(equalTo: reminderListCollectionViewController.view.topAnchor, constant: -UIConstants.welcomeLabelBottomInset)
         ]
         
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -99,15 +102,15 @@ extension HomeViewController: ViewControllerProtocol {
     
     func reloadView(with displayData: [ReminderList]) {
         
+        reminderListCollectionViewController.reload(with: displayData)
         print(displayData)
     }
 }
 
-typealias HomeDelegate  = HomeViewController
-extension HomeDelegate {
+extension HomeViewController: ViewControllerNavigable {
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func selectItem(at index: Int) {
         
-        navigationController?.pushViewController(ReminderDetailViewController(), animated: true)
+        presenter.selectReminderList(at: index)
     }
 }

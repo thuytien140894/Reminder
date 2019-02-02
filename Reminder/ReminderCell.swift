@@ -8,15 +8,22 @@
 
 import UIKit
 
+protocol CollectionViewCellDisplayModel {}
+
+protocol CollectionViewCell {
+    func updateDisplay(with displayModel: CollectionViewCellDisplayModel)
+}
+
 class ReminderCell: UICollectionViewCell {
     
     static let reuseIdentifier = "photoCell"
     
-    private let imageView = UIImageView()
     private let descriptionView = UIStackView()
+    private let title = UILabel()
     
     private struct UIConstants {
         static let descriptionSpacing: CGFloat = 5
+        static let cornerRadius: CGFloat = 10
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -33,35 +40,15 @@ class ReminderCell: UICollectionViewCell {
     
     private func setupUI() {
         
-        backgroundColor = .blue
-        setupImageView()
+        backgroundColor = .white
+        layer.cornerRadius = UIConstants.cornerRadius
+        layer.masksToBounds = true
+        
         setupDescriptionView()
-    }
-    
-    private func setupImageView() {
-        
-        imageView.image = UIImage(named: "Eiffel")
-        contentView.addSubview(imageView)
-        setupImageViewConstraints()
-    }
-    
-    private func setupImageViewConstraints() {
-        
-        let imageViewConstraints = [
-            imageView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor),
-            imageView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
-        ]
-        
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate(imageViewConstraints)
     }
     
     private func setupDescriptionView() {
         
-        let title = UILabel()
-        title.text = "Title"
         descriptionView.addArrangedSubview(title)
         
         let subtitle = UILabel()
@@ -89,5 +76,14 @@ class ReminderCell: UICollectionViewCell {
         
         descriptionView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         descriptionView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+    }
+}
+
+extension ReminderCell: CollectionViewCell {
+    
+    func updateDisplay(with displayModel: CollectionViewCellDisplayModel) {
+        
+        guard let reminderList = displayModel as? ReminderList else { return }
+        title.text = reminderList.title
     }
 }

@@ -15,7 +15,6 @@ struct Reminder {
     var isCompleted: Bool
     
     var jsonObject: [String: Any] {
-        
         return [
             "content": content,
             "deadline": deadline,
@@ -28,7 +27,8 @@ extension Reminder {
     
     init?(jsonObject: [String: Any]) {
         
-        guard let content = jsonObject["content"] as? String,
+        guard
+            let content = jsonObject["content"] as? String,
             let deadline = jsonObject["deadline"] as? String,
             let isCompleted = jsonObject["isCompleted"] as? Bool else { return nil }
         
@@ -40,14 +40,13 @@ extension Reminder {
     }
 }
 
-struct ReminderList {
+struct ReminderList: CollectionViewCellDisplayModel {
     
     var title: String
     var taskCount: Int
     var doneTaskCount: Int
     
     var jsonObject: [String: Any] {
-        
         return [
             "title": title,
             "taskCount": taskCount,
@@ -60,7 +59,8 @@ extension ReminderList {
     
     init?(jsonObject: [String: Any]) {
         
-        guard let title = jsonObject["title"] as? String,
+        guard
+            let title = jsonObject["title"] as? String,
             let taskCount = jsonObject["taskCount"] as? Int,
             let doneTaskCount = jsonObject["doneTaskCount"] as? Int else { return nil }
         
