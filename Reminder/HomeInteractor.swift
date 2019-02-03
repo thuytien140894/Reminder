@@ -15,7 +15,7 @@ class HomeInteractor: InteractorProtocol {
     private let dataManager: DataManagerProtocol
     weak var delegate: InteractorDelegateProtocol?
     
-    init(dataManager: HomeDataManager) {
+    init(dataManager: DataManagerProtocol) {
         
         self.dataManager = dataManager
     }

@@ -11,17 +11,40 @@ import XCTest
 
 class ReminderTests: XCTestCase {
 
+    private var homeViewController: HomeViewController!
+    private var homeWireFrame: MockWireFrame!
+    private var dataManager: MockDataManager!
+    
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        super.setUp()
+        
+        dataManager = MockDataManager()
+        let homeInteractor = HomeInteractor(dataManager: dataManager)
+        homeWireFrame = MockWireFrame()
+        let homePresenter = HomePresenter(interactor: homeInteractor, wireframe: homeWireFrame)
+        homeWireFrame.presenter = homePresenter
+        homeViewController = HomeViewController(presenter: homePresenter)
+        homePresenter.viewController = homeViewController
+        homeInteractor.delegate = homePresenter
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        
+        homeViewController = nil
+        homeWireFrame = nil
+        dataManager = nil
+        
+        super.tearDown()
     }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    
+    func testSelectingReminderListShouldLaunchReminderDetailPage() {
+        
+        homeViewController?.viewDidLoad()
+        homeViewController?.selectItem(at: 0)
+        guard let homeWireFrame = homeWireFrame else { return }
+        let firstReminderListTitle = dataManager.reminderLists[0].title
+        XCTAssertEqual(homeWireFrame.currentlyDisplayedReminderListTitle, firstReminderListTitle)
     }
 
     func testPerformanceExample() {
@@ -30,5 +53,4 @@ class ReminderTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
-
 }

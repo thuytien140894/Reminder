@@ -10,6 +10,8 @@
 		B6BECA25D2F0B0AA21AA2338 /* Pods_Reminder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C46BA55A45F8C41BAAC0525 /* Pods_Reminder.framework */; };
 		D67E867E81CDDD903C7AF7B3 /* Pods_ReminderTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 920DDA23AA0ECD698BD45F7F /* Pods_ReminderTests.framework */; };
 		E85C651A22062FD40002E83F /* PagedHorizontalCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85C651922062FD40002E83F /* PagedHorizontalCollectionViewController.swift */; };
+		E85C651C22066BA50002E83F /* MockDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85C651B22066BA50002E83F /* MockDataManager.swift */; };
+		E85C651E22066DCF0002E83F /* MockWireFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85C651D22066DCF0002E83F /* MockWireFrame.swift */; };
 		E8E127F72186A0BC00916B9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E127F62186A0BC00916B9C /* AppDelegate.swift */; };
 		E8E127FE2186A0BD00916B9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8E127FD2186A0BD00916B9C /* Assets.xcassets */; };
 		E8E1280C2186A0BD00916B9C /* ReminderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E1280B2186A0BD00916B9C /* ReminderTests.swift */; };
@@ -59,6 +61,8 @@
 		920DDA23AA0ECD698BD45F7F /* Pods_ReminderTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_ReminderTests.framework; path = "../Debug-iphonesimulator/Pods_ReminderTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B7885858D44223F9E8C470E /* Pods-ReminderTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReminderTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ReminderTests/Pods-ReminderTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E85C651922062FD40002E83F /* PagedHorizontalCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedHorizontalCollectionViewController.swift; sourceTree = "<group>"; };
+		E85C651B22066BA50002E83F /* MockDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataManager.swift; sourceTree = "<group>"; };
+		E85C651D22066DCF0002E83F /* MockWireFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWireFrame.swift; sourceTree = "<group>"; };
 		E8E127F32186A0BC00916B9C /* Reminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reminder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8E127F62186A0BC00916B9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E8E127FD2186A0BD00916B9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -148,6 +152,15 @@
 			path = CollectionView;
 			sourceTree = "<group>";
 		};
+		E8DD346722068AC400CD308E /* MockEntities */ = {
+			isa = PBXGroup;
+			children = (
+				E85C651D22066DCF0002E83F /* MockWireFrame.swift */,
+				E85C651B22066BA50002E83F /* MockDataManager.swift */,
+			);
+			path = MockEntities;
+			sourceTree = "<group>";
+		};
 		E8E127EA2186A0BC00916B9C = {
 			isa = PBXGroup;
 			children = (
@@ -194,6 +207,7 @@
 		E8E1280A2186A0BD00916B9C /* ReminderTests */ = {
 			isa = PBXGroup;
 			children = (
+				E8DD346722068AC400CD308E /* MockEntities */,
 				E8E1280B2186A0BD00916B9C /* ReminderTests.swift */,
 				E8E1280D2186A0BD00916B9C /* Info.plist */,
 			);
@@ -534,6 +548,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8E1280C2186A0BD00916B9C /* ReminderTests.swift in Sources */,
+				E85C651C22066BA50002E83F /* MockDataManager.swift in Sources */,
+				E85C651E22066DCF0002E83F /* MockWireFrame.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
