@@ -1,6 +1,6 @@
 //
 //  AppDependencies.swift
-//  Starter
+//  Reminder
 //
 //  Created by Tien Thuy Ho on 10/27/18.
 //  Copyright © 2018 Tien Thuy Ho. All rights reserved.
@@ -25,7 +25,7 @@ class AppLauncher {
     
     private func configureDependencies() {
         
-        let dataManager = HomeDataManager()
+        let dataManager = HomeDataManager(database: Firestore.firestore())
         let homeInteractor = HomeInteractor(dataManager: dataManager)
         let homeWireFrame = HomeWireFrame()
         let homePresenter = HomePresenter(interactor: homeInteractor, wireframe: homeWireFrame)

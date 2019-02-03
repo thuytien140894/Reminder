@@ -117,7 +117,10 @@ extension PagedHorizontalCollectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.collectionView.reuseIdentifier, for: indexPath)
-        guard let reminderCell = cell as? CollectionViewCell else { return cell }
+        guard
+            let reminderCell = cell as? CollectionViewCell,
+            Utils.isNotOutOfBounds(index: indexPath.item, arrayCount: displayModels.count) else { return cell }
+        
         reminderCell.updateDisplay(with: displayModels[indexPath.item])
         
         return cell

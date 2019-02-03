@@ -1,6 +1,6 @@
 //
-//  PhotoCell.swift
-//  Starter
+//  ReminderCell.swift
+//  Reminder
 //
 //  Created by Tien Thuy Ho on 10/20/18.
 //  Copyright © 2018 Tien Thuy Ho. All rights reserved.
