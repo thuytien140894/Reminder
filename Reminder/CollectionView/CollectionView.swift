@@ -18,7 +18,10 @@ class CollectionView: UICollectionView {
         setupCollectionViewLayout()
     }
     
-    func setupCollectionViewLayout() { }
+    func setupCollectionViewLayout() {
+        
+        fatalError("Cannot be used directly.")
+    }
     
     required init?(coder aDecoder: NSCoder) {
         

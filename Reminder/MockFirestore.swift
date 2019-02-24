@@ -7,7 +7,6 @@
 //
 
 import FirebaseFirestore
-@testable import Reminder
 
 class MockFirestore: FirestoreProtocol {
     
@@ -37,11 +36,11 @@ class MockCollectionReference: CollectionReference {
     }
     
     override func document(_ documentPath: String) -> DocumentReference {
-    
+        
         if let existingDocument = documents.first(where: { $0.identifier == documentPath }) {
             return existingDocument
         }
-    
+        
         let document = MockDocumentReference(parent: self, identifier: documentPath)
         documents.append(document)
         return document

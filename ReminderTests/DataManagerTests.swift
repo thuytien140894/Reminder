@@ -13,10 +13,11 @@ class DataManagerTests: XCTestCase {
     
     private let dataManager = HomeDataManager(database: MockFirestore())
     
-    override func setUp() {
+    override func tearDown() {
         
-        super.setUp()
         dataManager.resetDatabase()
+        
+        super.tearDown()
     }
     
     func testFetchingReminderLists() {

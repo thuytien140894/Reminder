@@ -36,6 +36,7 @@ class ReminderCell: UICollectionViewCell {
         super.init(frame: frame)
         
         setupUI()
+        accessibilityIdentifier = "reminderListCell"
     }
     
     private func setupUI() {
@@ -49,6 +50,7 @@ class ReminderCell: UICollectionViewCell {
     
     private func setupDescriptionView() {
         
+        title.accessibilityIdentifier = "reminderListTitle"
         descriptionView.addArrangedSubview(title)
         
         let subtitle = UILabel()

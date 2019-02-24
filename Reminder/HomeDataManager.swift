@@ -37,11 +37,9 @@ class HomeDataManager {
         
         reminderListCollection = database.collection("reminderLists")
         userCollection = database.collection("users")
-        
-//        addTestData()
     }
     
-    private func addTestData() {
+    func addTestData() {
         
         addUser(ReminderUser(name: "Tien"))
         addReminderList(ReminderList(title: "Home"))

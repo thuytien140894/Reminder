@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FirebaseFirestore
 
 protocol AppLauncherProtocol {
     func launch(for window: UIWindow?)
@@ -25,7 +26,7 @@ class AppLauncher {
     
     private func configureDependencies() {
         
-        let dataManager = HomeDataManager(database: Firestore.firestore())
+        let dataManager = setupDataManager()
         let homeInteractor = HomeInteractor(dataManager: dataManager)
         let homeWireFrame = HomeWireFrame()
         let homePresenter = HomePresenter(interactor: homeInteractor, wireframe: homeWireFrame)
@@ -33,6 +34,23 @@ class AppLauncher {
         rootViewController = HomeViewController(presenter: homePresenter)
         homePresenter.viewController = rootViewController
         homeInteractor.delegate = homePresenter
+    }
+    
+    private func setupDataManager() -> HomeDataManager {
+        
+        var dataManager = HomeDataManager(database: Firestore.firestore())
+        
+        if uiTesting() {
+            dataManager = HomeDataManager(database: MockFirestore())
+            dataManager.addTestData()
+        }
+        
+        return dataManager
+    }
+    
+    private func uiTesting() -> Bool {
+        
+        return ProcessInfo.processInfo.arguments.contains("UI-TESTING")
     }
 }
 
