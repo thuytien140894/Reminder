@@ -10,8 +10,9 @@ import XCTest
 @testable import Reminder
 
 class ReminderTests: XCTestCase {
-
-    private var homeViewController: HomeViewController!
+    
+    private var homeViewController: MockHomeViewController!
+    private var homePresenter: HomePresenter!
     private var homeWireFrame: MockWireFrame!
     private var dataManager: MockDataManager!
     
@@ -22,31 +23,51 @@ class ReminderTests: XCTestCase {
         dataManager = MockDataManager()
         let homeInteractor = HomeInteractor(dataManager: dataManager)
         homeWireFrame = MockWireFrame()
-        let homePresenter = HomePresenter(interactor: homeInteractor, wireframe: homeWireFrame)
+        homePresenter = HomePresenter(interactor: homeInteractor, wireframe: homeWireFrame)
         homeWireFrame.presenter = homePresenter
-        homeViewController = HomeViewController(presenter: homePresenter)
+        homeViewController = MockHomeViewController()
         homePresenter.viewController = homeViewController
         homeInteractor.delegate = homePresenter
     }
-
+    
     override func tearDown() {
         
         homeViewController = nil
+        homePresenter = nil
         homeWireFrame = nil
         dataManager = nil
         
         super.tearDown()
     }
     
-    func testSelectingReminderListShouldLaunchReminderDetailPage() {
+    func testReloadingViewControllerDisplayModelsFromDatabase() {
         
-        homeViewController?.viewDidLoad()
-        homeViewController?.selectItem(at: 0)
-        guard let homeWireFrame = homeWireFrame else { return }
-        let firstReminderListTitle = dataManager.reminderLists[0].title
-        XCTAssertEqual(homeWireFrame.currentlyDisplayedReminderListTitle, firstReminderListTitle)
+        let addedReminderLists = addReminderListsToDatabase()
+        
+        homePresenter.loadView()
+        XCTAssert(homeViewController.displayDataModels.elementsEqual(addedReminderLists))
     }
-
+    
+    func testSelectingReminderListShouldNavigateToIt() {
+        
+        let addedReminderLists = addReminderListsToDatabase()
+        
+        homePresenter.loadView()
+        let selectedIndex = Int.random(in: 0..<addedReminderLists.count)
+        homePresenter.selectReminderList(at: selectedIndex)
+        let selectedReminderListTitle = addedReminderLists[selectedIndex].title
+        XCTAssertEqual(homeWireFrame.currentlyDisplayedReminderListTitle, selectedReminderListTitle)
+    }
+    
+    private func addReminderListsToDatabase() -> [ReminderList] {
+        
+        let reminderLists = [ReminderList(title: "Home"),
+                             ReminderList(title: "Work"),
+                             ReminderList(title: "Garden")]
+        reminderLists.forEach { dataManager.addReminderList($0) }
+        return reminderLists
+    }
+    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {

@@ -16,6 +16,7 @@
 		E85C651A22062FD40002E83F /* PagedHorizontalCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85C651922062FD40002E83F /* PagedHorizontalCollectionViewController.swift */; };
 		E85C651C22066BA50002E83F /* MockDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85C651B22066BA50002E83F /* MockDataManager.swift */; };
 		E85C651E22066DCF0002E83F /* MockWireFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85C651D22066DCF0002E83F /* MockWireFrame.swift */; };
+		E88B315122228D9F005FD63B /* MockHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88B315022228D9F005FD63B /* MockHomeViewController.swift */; };
 		E8AB8341221A8D3A00D7987D /* FirestoreProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8AB8340221A8D3A00D7987D /* FirestoreProtocols.swift */; };
 		E8AB8343221A95F400D7987D /* MockFirestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8AB8342221A95F400D7987D /* MockFirestore.swift */; };
 		E8DD346922068B2800CD308E /* DataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8DD346822068B2800CD308E /* DataManagerTests.swift */; };
@@ -74,6 +75,7 @@
 		E85C651922062FD40002E83F /* PagedHorizontalCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedHorizontalCollectionViewController.swift; sourceTree = "<group>"; };
 		E85C651B22066BA50002E83F /* MockDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataManager.swift; sourceTree = "<group>"; };
 		E85C651D22066DCF0002E83F /* MockWireFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWireFrame.swift; sourceTree = "<group>"; };
+		E88B315022228D9F005FD63B /* MockHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockHomeViewController.swift; sourceTree = "<group>"; };
 		E8AB8340221A8D3A00D7987D /* FirestoreProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreProtocols.swift; sourceTree = "<group>"; };
 		E8AB8342221A95F400D7987D /* MockFirestore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFirestore.swift; sourceTree = "<group>"; };
 		E8DD346822068B2800CD308E /* DataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerTests.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 		E8DD346722068AC400CD308E /* MockEntities */ = {
 			isa = PBXGroup;
 			children = (
+				E88B315022228D9F005FD63B /* MockHomeViewController.swift */,
 				E85C651D22066DCF0002E83F /* MockWireFrame.swift */,
 				E85C651B22066BA50002E83F /* MockDataManager.swift */,
 				E8AB8342221A95F400D7987D /* MockFirestore.swift */,
@@ -576,6 +579,7 @@
 				E8E1280C2186A0BD00916B9C /* ReminderTests.swift in Sources */,
 				E8DD346922068B2800CD308E /* DataManagerTests.swift in Sources */,
 				E85C651C22066BA50002E83F /* MockDataManager.swift in Sources */,
+				E88B315122228D9F005FD63B /* MockHomeViewController.swift in Sources */,
 				E85C651E22066DCF0002E83F /* MockWireFrame.swift in Sources */,
 				E8AB8343221A95F400D7987D /* MockFirestore.swift in Sources */,
 			);
