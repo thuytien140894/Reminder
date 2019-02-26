@@ -1,5 +1,5 @@
 //
-//  ReminderCell.swift
+//  ReminderListCell.swift
 //  Reminder
 //
 //  Created by Tien Thuy Ho on 10/20/18.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol CollectionViewCellDisplayModel {}
+protocol CollectionViewCellDisplayable: Displayable {}
 
 protocol CollectionViewCell {
-    func updateDisplay(with displayModel: CollectionViewCellDisplayModel)
+    func updateDisplay(with displayModel: CollectionViewCellDisplayable)
 }
 
-class ReminderCell: UICollectionViewCell {
+class ReminderListCell: UICollectionViewCell {
     
     static let reuseIdentifier = "photoCell"
     
@@ -81,9 +81,9 @@ class ReminderCell: UICollectionViewCell {
     }
 }
 
-extension ReminderCell: CollectionViewCell {
+extension ReminderListCell: CollectionViewCell {
     
-    func updateDisplay(with displayModel: CollectionViewCellDisplayModel) {
+    func updateDisplay(with displayModel: CollectionViewCellDisplayable) {
         
         guard let reminderList = displayModel as? ReminderList else { return }
         title.text = reminderList.title

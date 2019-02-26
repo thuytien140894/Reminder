@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
-        let appLauncher = AppLauncher()
+        let appLauncher = AppCoordinator()
         appLauncher.launch(for: window)
         
         return true

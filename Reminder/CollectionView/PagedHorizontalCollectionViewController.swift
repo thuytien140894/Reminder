@@ -18,7 +18,7 @@ class PagedHorizontalCollectionViewController: UIViewController {
     private var numberOfCells: Int {
         return displayModels.count
     }
-    private var displayModels: [CollectionViewCellDisplayModel] = []
+    private var displayModels: [CollectionViewCellDisplayable] = []
     
     private struct UIConstants {
         static let cellHeightRatio: CGFloat = 1.25
@@ -94,7 +94,7 @@ class PagedHorizontalCollectionViewController: UIViewController {
         collectionView.reuseIdentifier = reuseIdentifier
     }
     
-    func reload(with displayModels: [CollectionViewCellDisplayModel]) {
+    func reload(with displayModels: [ReminderList]) {
         
         self.displayModels = displayModels
         pageControl.numberOfPages = numberOfCells

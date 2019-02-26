@@ -6,15 +6,15 @@
 //  Copyright © 2019 Tien Thuy Ho. All rights reserved.
 //
 
+import UIKit 
 @testable import Reminder
 
 class MockWireFrame: WireFrameProtocol {
     
-    weak var presenter: PresenterProtocol?
-    var currentlyDisplayedReminderListTitle = ""
+    var reminderDetailPageIsShown = false
     
-    func showReminderDetailPage(withTitle title: String) {
+    func showReminderDetailPage(from viewController: UIViewController) {
         
-        currentlyDisplayedReminderListTitle = title
+        reminderDetailPageIsShown = true
     }
 }

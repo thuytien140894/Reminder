@@ -8,17 +8,13 @@
 
 import UIKit
 
-protocol ViewControllerProtocol: class {
-    func reloadView(with displayData: [ReminderList])
-}
-
 protocol ViewControllerNavigable: class {
     func selectItem(at index: Int)
 }
 
 class HomeViewController: UIViewController {
 
-    public var presenter: PresenterProtocol
+    private let presenter: HomePresenterProtocol
     private lazy var reminderListCollectionViewController = PagedHorizontalCollectionViewController()
     
     private struct UIConstants {
@@ -26,7 +22,7 @@ class HomeViewController: UIViewController {
         static let welcomeLabelBottomInset: CGFloat = 50
     }
     
-    init(presenter: PresenterProtocol) {
+    init(presenter: HomePresenterProtocol) {
         
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
@@ -64,7 +60,7 @@ class HomeViewController: UIViewController {
         addChild(reminderListCollectionViewController)
         view.addSubview(reminderListCollectionViewController.view)
         reminderListCollectionViewController.didMove(toParent: self)
-        reminderListCollectionViewController.register(cellClass: ReminderCell.self, withReuseIdentifier: ReminderCell.reuseIdentifier)
+        reminderListCollectionViewController.register(cellClass: ReminderListCell.self, withReuseIdentifier: ReminderListCell.reuseIdentifier)
         setupReminderListCollectionViewConstraints()
     }
     

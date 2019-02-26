@@ -11,16 +11,20 @@ import Foundation
 
 class MockDataManager: DataManagerProtocol {
     
-    var reminderLists: [ReminderList] = []
-    var currentUser = ReminderUser(name: "Someone")
-    var reminders: [Reminder] = []
+    private var reminderLists: [ReminderList] = []
+    private var currentUser = ReminderUser(name: "Someone")
+    private var reminders: [Reminder] = []
+    private var currentReminderList: ReminderList?
     
     func fetchReminderLists(completion: @escaping ([ReminderList]) -> Void) {
         
         completion(reminderLists)
     }
     
-    func fetchReminders(in reminderList: ReminderList, completion: (([Reminder]) -> Void)? = nil) {}
+    func fetchReminders(completion: (([Reminder]) -> Void)? = nil) {
+        
+        completion?(reminders)
+    }
     
     func addUser(_ user: ReminderUser) {
         
@@ -32,7 +36,7 @@ class MockDataManager: DataManagerProtocol {
         reminderLists.append(reminderList)
     }
     
-    func addReminder(_ reminder: Reminder, to reminderList: ReminderList) -> String {
+    func addReminder(_ reminder: Reminder) -> String {
 
         reminders.append(reminder)
         return UUID().uuidString
@@ -43,7 +47,7 @@ class MockDataManager: DataManagerProtocol {
         reminderLists = reminderLists.filter { $0 != reminderList }
     }
     
-    func removeReminder(_ reminder: Reminder, from reminderList: ReminderList) {
+    func removeReminder(_ reminder: Reminder) {
         
         reminders = reminders.filter { $0 != reminder }
     }
@@ -55,12 +59,24 @@ class MockDataManager: DataManagerProtocol {
     
     func removeAllReminders(from reminderList: ReminderList) {
         
+        var matchedReminderList = reminderLists.first { $0 == reminderList}
+        matchedReminderList?.reset()
+    }
+    
+    func removeAllReminders() {
+        
         reminders.removeAll()
+        currentReminderList?.reset()
     }
     
     func resetDatabase() {
         
         reminderLists.removeAll()
         reminders.removeAll()
+    }
+    
+    func setCurrentReminderList(_ reminderList: ReminderList) {
+        
+        currentReminderList = reminderList
     }
 }

@@ -11,7 +11,7 @@ import XCTest
 
 class DataManagerTests: XCTestCase {
     
-    private let dataManager = HomeDataManager(database: MockFirestore())
+    private let dataManager = DataManager(database: MockFirestore())
     
     override func tearDown() {
         
@@ -85,20 +85,24 @@ class DataManagerTests: XCTestCase {
         let completionBlock: ([Reminder]) -> Void = { addedReminders in
             XCTAssert(addedReminders.elementsEqual(reminders))
         }
-        dataManager.fetchReminders(in: ReminderList(title: "Home"), completion: completionBlock)
+        
+        dataManager.setCurrentReminderList(ReminderList(title: "Home"))
+        dataManager.fetchReminders(completion: completionBlock)
     }
     
     func testRemovingReminder() {
         
         let addedReminders = addSomeReminders()
         let reminderToRemove = addedReminders[0]
-        dataManager.removeReminder(reminderToRemove, from: ReminderList(title: "Home"))
+        dataManager.setCurrentReminderList(ReminderList(title: "Home"))
+        dataManager.removeReminder(reminderToRemove)
         
         let completionBlock: ([Reminder]) -> Void = { reminders in
             XCTAssert(addedReminders.contains(where: reminders.contains))
             XCTAssertFalse(reminders.contains(reminderToRemove))
         }
-        dataManager.fetchReminders(in: ReminderList(title: "Home"), completion: completionBlock)
+        dataManager.setCurrentReminderList(ReminderList(title: "Home"))
+        dataManager.fetchReminders(completion: completionBlock)
     }
     
     func testRemovingAllReminders() {
@@ -109,7 +113,8 @@ class DataManagerTests: XCTestCase {
         let completionBlock: ([Reminder]) -> Void = { reminders in
             XCTAssertEqual(reminders.count, 0)
         }
-        dataManager.fetchReminders(in: ReminderList(title: "Home"), completion: completionBlock)
+        dataManager.setCurrentReminderList(ReminderList(title: "Home"))
+        dataManager.fetchReminders(completion: completionBlock)
     }
     
     @discardableResult
@@ -129,8 +134,9 @@ class DataManagerTests: XCTestCase {
             identifier: ""
         )
         
-        reminder1.identifier = dataManager.addReminder(reminder1, to: ReminderList(title: "Home"))
-        reminder2.identifier = dataManager.addReminder(reminder2, to: ReminderList(title: "Home"))
+        dataManager.setCurrentReminderList(ReminderList(title: "Home"))
+        reminder1.identifier = dataManager.addReminder(reminder1)
+        reminder2.identifier = dataManager.addReminder(reminder2)
         
         return [reminder1, reminder2]
     }

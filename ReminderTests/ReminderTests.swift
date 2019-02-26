@@ -24,10 +24,9 @@ class ReminderTests: XCTestCase {
         let homeInteractor = HomeInteractor(dataManager: dataManager)
         homeWireFrame = MockWireFrame()
         homePresenter = HomePresenter(interactor: homeInteractor, wireframe: homeWireFrame)
-        homeWireFrame.presenter = homePresenter
         homeViewController = MockHomeViewController()
-        homePresenter.viewController = homeViewController
-        homeInteractor.delegate = homePresenter
+        homePresenter.viewControllerWrapper = ViewController(homeViewController)
+        homeInteractor.delegate = InteractorDelegate(homePresenter)
     }
     
     override func tearDown() {
@@ -55,8 +54,7 @@ class ReminderTests: XCTestCase {
         homePresenter.loadView()
         let selectedIndex = Int.random(in: 0..<addedReminderLists.count)
         homePresenter.selectReminderList(at: selectedIndex)
-        let selectedReminderListTitle = addedReminderLists[selectedIndex].title
-        XCTAssertEqual(homeWireFrame.currentlyDisplayedReminderListTitle, selectedReminderListTitle)
+        XCTAssert(homeWireFrame.reminderDetailPageIsShown)
     }
     
     private func addReminderListsToDatabase() -> [ReminderList] {

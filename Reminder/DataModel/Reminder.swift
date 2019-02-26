@@ -6,8 +6,6 @@
 //  Copyright © 2018 Tien Thuy Ho. All rights reserved.
 //
 
-import Foundation
-
 struct Reminder: Equatable {
     
     var content: String
@@ -52,40 +50,4 @@ extension Reminder {
     }
 }
 
-struct ReminderList: CollectionViewCellDisplayModel, Equatable {
-    
-    var title: String
-    var taskCount: Int
-    var doneTaskCount: Int
-    
-    var jsonObject: [String: Any] {
-        return [
-            "title": title,
-            "taskCount": taskCount,
-            "doneTaskCount": doneTaskCount
-        ]
-    }
-}
-
-extension ReminderList {
-    
-    init?(jsonObject: [String: Any]) {
-        
-        guard
-            let title = jsonObject["title"] as? String,
-            let taskCount = jsonObject["taskCount"] as? Int,
-            let doneTaskCount = jsonObject["doneTaskCount"] as? Int else { return nil }
-        
-        self.init(title: title, taskCount: taskCount, doneTaskCount: doneTaskCount)
-    }
-    
-    init(title: String) {
-        
-        self.init(title: title, taskCount: 0, doneTaskCount: 0)
-    }
-}
-
-struct ReminderUser {
-    
-    var name: String
-}
+extension Reminder: Displayable {}
