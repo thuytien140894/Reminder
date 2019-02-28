@@ -49,14 +49,14 @@ class DataManager {
         addReminderList(ReminderList(title: "Work"))
         addReminderList(ReminderList(title: "Garden"))
         
-        let reminder = Reminder(
+        var reminder = Reminder(
             content: "Feed the cat",
             deadline: "123",
             isCompleted: false
         )
         
         currentReminderList = ReminderList(title: "Home")
-        addReminder(reminder)
+        reminder.identifier = addReminder(reminder)
     }
 }
 

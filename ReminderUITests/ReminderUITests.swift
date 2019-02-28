@@ -10,7 +10,7 @@ import XCTest
 
 class ReminderUITests: XCTestCase {
     
-    private let reminderPageModel = ReminderPageModel()
+    private let homePageModel = HomePageModel()
     private let app = XCUIApplication()
     
     override func setUp() {
@@ -30,10 +30,23 @@ class ReminderUITests: XCTestCase {
         
         app.launch()
         
-        let firstReminderList = reminderPageModel.reminderListCells.element(boundBy: 0)
-        let reminderListTitle = reminderPageModel.titleForReminderList(at: 0).label
+        let firstReminderList = homePageModel.reminderListCells.element(boundBy: 0)
+        let reminderListTitle = homePageModel.titleForReminderList(at: 0).label
         firstReminderList.tap()
         
         XCTAssert(app.navigationBars[reminderListTitle].exists)
+    }
+    
+    func testSwipingThroughReminderListCollectionShouldUpdatePageControl() {
+        
+        app.launch()
+        
+        XCTAssertEqual(homePageModel.pageControlValue, "page 1 of 3")
+        let selectedIndex = 1
+        let reminderList = homePageModel.reminderListCells.element(boundBy: selectedIndex)
+        let previousReminderList = homePageModel.reminderListCells.element(boundBy: selectedIndex - 1)
+        reminderList.press(forDuration: 0.5, thenDragTo: previousReminderList)
+        
+        XCTAssertEqual(homePageModel.pageControlValue, "page 1 of 3")
     }
 }

@@ -63,6 +63,7 @@ class PagedHorizontalCollectionViewController: UIViewController {
     
     private func setupPageControl() {
         
+        pageControl.accessibilityIdentifier = "pageControl"
         pageControl.numberOfPages = 0
         pageControl.currentPage = 0
         pageControl.pageIndicatorTintColor = .black

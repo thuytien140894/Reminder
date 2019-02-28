@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Firebase
 import FirebaseFirestore
 
 protocol AppLaunching {
@@ -24,11 +23,6 @@ class AppCoordinator {
     private lazy var dataManager: DataManager = {
         setupDataManager()
     }()
-    
-    init() {
-        
-        FirebaseApp.configure()
-    }
     
     private func setupDataManager() -> DataManager {
         
@@ -83,7 +77,7 @@ extension AppCoordinator: AppLaunching {
         installRootViewController(homeViewController, into: window)
     }
     
-    func installRootViewController(_ viewController: UIViewController, into window: UIWindow?) {
+    private func installRootViewController(_ viewController: UIViewController, into window: UIWindow?) {
         
         window?.rootViewController = UINavigationController(rootViewController: viewController)
         window?.makeKeyAndVisible()

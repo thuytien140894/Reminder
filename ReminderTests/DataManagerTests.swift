@@ -81,12 +81,11 @@ class DataManagerTests: XCTestCase {
     func testFetchingReminders() {
         
         let reminders = addSomeReminders()
+        dataManager.setCurrentReminderList(ReminderList(title: "Home"))
         
         let completionBlock: ([Reminder]) -> Void = { addedReminders in
             XCTAssert(addedReminders.elementsEqual(reminders))
         }
-        
-        dataManager.setCurrentReminderList(ReminderList(title: "Home"))
         dataManager.fetchReminders(completion: completionBlock)
     }
     
@@ -101,11 +100,10 @@ class DataManagerTests: XCTestCase {
             XCTAssert(addedReminders.contains(where: reminders.contains))
             XCTAssertFalse(reminders.contains(reminderToRemove))
         }
-        dataManager.setCurrentReminderList(ReminderList(title: "Home"))
         dataManager.fetchReminders(completion: completionBlock)
     }
     
-    func testRemovingAllReminders() {
+    func testRemovingAllRemindersFromSpecifiedReminderList() {
         
         addSomeReminders()
         dataManager.removeAllReminders(from: ReminderList(title: "Home"))
@@ -113,7 +111,18 @@ class DataManagerTests: XCTestCase {
         let completionBlock: ([Reminder]) -> Void = { reminders in
             XCTAssertEqual(reminders.count, 0)
         }
+        dataManager.fetchReminders(completion: completionBlock)
+    }
+    
+    func testRemovingAllRemindersFromCurrentReminderList() {
+        
+        addSomeReminders()
         dataManager.setCurrentReminderList(ReminderList(title: "Home"))
+        dataManager.removeAllReminders()
+        
+        let completionBlock: ([Reminder]) -> Void = { reminders in
+            XCTAssertEqual(reminders.count, 0)
+        }
         dataManager.fetchReminders(completion: completionBlock)
     }
     
@@ -139,5 +148,28 @@ class DataManagerTests: XCTestCase {
         reminder2.identifier = dataManager.addReminder(reminder2)
         
         return [reminder1, reminder2]
+    }
+    
+    func testAddingTestData() {
+        
+        dataManager.addTestData()
+        assertAtLeastOneReminderListIsAdded()
+        assertAtLeastOneReminderIsAdded()
+    }
+    
+    private func assertAtLeastOneReminderListIsAdded() {
+        
+        let reminderListFetchCompletionBlock: ([ReminderList]) -> Void = { reminderLists in
+            XCTAssertGreaterThan(reminderLists.count, 0)
+        }
+        dataManager.fetchReminderLists(completion: reminderListFetchCompletionBlock)
+    }
+    
+    private func assertAtLeastOneReminderIsAdded() {
+        
+        let reminderFetchCompletionBlock: ([Reminder]) -> Void = { reminders in
+            XCTAssertGreaterThan(reminders.count, 0)
+        }
+        dataManager.fetchReminders(completion: reminderFetchCompletionBlock)
     }
 }
