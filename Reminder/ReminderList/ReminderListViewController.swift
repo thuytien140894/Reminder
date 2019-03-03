@@ -38,12 +38,16 @@ class ReminderListViewController: UIViewController {
     
     private func setupNavigationBar() {
         
-        navigationItem.backBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(returnToHome))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didCancel))
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
     }
     
     @objc
-    private func returnToHome() {
-        
+    private func didCancel() {
+    
+        presenter.goBackToHome()
     }
 }
 

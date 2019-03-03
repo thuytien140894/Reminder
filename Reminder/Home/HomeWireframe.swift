@@ -8,11 +8,11 @@
 
 import UIKit
 
-protocol WireFrameProtocol {
+protocol HomeWireFrameProtocol {
     func showReminderDetailPage(from viewController: UIViewController)
 }
 
-class HomeWireFrame: WireFrameProtocol {
+class HomeWireFrame: HomeWireFrameProtocol {
     
     private let appCoordinator: ViewControllerConfiguring
     

@@ -14,10 +14,10 @@ class HomePresenter: HomePresenterProtocol {
     
     var viewControllerWrapper: ViewController<ReminderList>?
     private let interactor: HomeInteractorProtocol
-    private let wireframe: WireFrameProtocol
+    private let wireframe: HomeWireFrameProtocol
     private var reminderLists: [ReminderList] = []
     
-    init(interactor: HomeInteractorProtocol, wireframe: WireFrameProtocol) {
+    init(interactor: HomeInteractorProtocol, wireframe: HomeWireFrameProtocol) {
         
         self.interactor = interactor
         self.wireframe = wireframe 
@@ -32,8 +32,8 @@ class HomePresenter: HomePresenterProtocol {
         
         interactor.setCurrentReminderList(reminderLists[index])
         
-        guard let presentingViewController = viewControllerWrapper?.unwrap() else { return }
-        wireframe.showReminderDetailPage(from: presentingViewController)
+        guard let viewController = viewControllerWrapper?.unwrap() else { return }
+        wireframe.showReminderDetailPage(from: viewController)
     }
 }
 

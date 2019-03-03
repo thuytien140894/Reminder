@@ -1,5 +1,5 @@
 //
-//  ReminderTests.swift
+//  HomeViewControllerTests.swift
 //  ReminderTests
 //
 //  Created by Tien Thuy Ho on 10/28/18.
@@ -9,11 +9,11 @@
 import XCTest
 @testable import Reminder
 
-class ReminderTests: XCTestCase {
+class HomeViewControllerTests: XCTestCase {
     
     private var homeViewController: MockHomeViewController!
     private var homePresenter: HomePresenter!
-    private var homeWireFrame: MockWireFrame!
+    private var homeWireFrame: MockHomeWireFrame!
     private var dataManager: MockDataManager!
     
     override func setUp() {
@@ -22,7 +22,7 @@ class ReminderTests: XCTestCase {
         
         dataManager = MockDataManager()
         let homeInteractor = HomeInteractor(dataManager: dataManager)
-        homeWireFrame = MockWireFrame()
+        homeWireFrame = MockHomeWireFrame()
         homePresenter = HomePresenter(interactor: homeInteractor, wireframe: homeWireFrame)
         homeViewController = MockHomeViewController()
         homePresenter.viewControllerWrapper = ViewController(homeViewController)

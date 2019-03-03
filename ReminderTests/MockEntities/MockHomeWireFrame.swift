@@ -1,5 +1,5 @@
 //
-//  MockWireFrame.swift
+//  MockHomeWireFrame.swift
 //  ReminderTests
 //
 //  Created by Tien Thuy Ho on 2/2/19.
@@ -9,7 +9,7 @@
 import UIKit 
 @testable import Reminder
 
-class MockWireFrame: WireFrameProtocol {
+class MockHomeWireFrame: HomeWireFrameProtocol {
     
     var reminderDetailPageIsShown = false
     

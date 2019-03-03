@@ -22,7 +22,7 @@ class ReminderListInteractor: ReminderListInteractorProtocol {
     
     func fetchReminders() {
         
-        dataManager.fetchReminders() { [weak delegate] reminders in
+        dataManager.fetchReminders { [weak delegate] reminders in
             delegate?.fetched(displayData: reminders)
         }
     }

@@ -6,15 +6,17 @@
 //  Copyright © 2019 Tien Thuy Ho. All rights reserved.
 //
 
-protocol ReminderListPresenterProtocol: PresenterProtocol {}
+protocol ReminderListPresenterProtocol: PresenterProtocol {
+    func goBackToHome()
+}
 
 class ReminderListPresenter: ReminderListPresenterProtocol {
     
     var viewControllerWrapper: ViewController<Reminder>?
     private let interactor: ReminderListInteractorProtocol
-    private let wireframe: WireFrameProtocol
+    private let wireframe: ReminderListWireFrameProtocol
     
-    init(interactor: ReminderListInteractorProtocol, wireframe: WireFrameProtocol) {
+    init(interactor: ReminderListInteractorProtocol, wireframe: ReminderListWireFrameProtocol) {
         
         self.interactor = interactor
         self.wireframe = wireframe
@@ -23,6 +25,12 @@ class ReminderListPresenter: ReminderListPresenterProtocol {
     func loadView() {
         
         interactor.fetchReminders()
+    }
+    
+    func goBackToHome() {
+        
+        guard let viewController = viewControllerWrapper?.unwrap() else { return }
+        wireframe.goBackToHome(from: viewController)
     }
 }
 

@@ -23,7 +23,7 @@ class HomeInteractor: HomeInteractorProtocol {
     
     func fetchReminderLists() {
         
-        dataManager.fetchReminderLists() { [weak delegate] reminders in
+        dataManager.fetchReminderLists { [weak delegate] reminders in
             delegate?.fetched(displayData: reminders)
         }
     }

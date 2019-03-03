@@ -47,8 +47,8 @@ extension AppCoordinator: ViewControllerConfiguring {
     func configureHomeViewController() -> UIViewController {
         
         let interactor = HomeInteractor(dataManager: dataManager)
-        let wireFrame = HomeWireFrame(appCoordinator: self)
-        let presenter = HomePresenter(interactor: interactor, wireframe: wireFrame)
+        let wireframe = HomeWireFrame(appCoordinator: self)
+        let presenter = HomePresenter(interactor: interactor, wireframe: wireframe)
         let viewController = HomeViewController(presenter: presenter)
         presenter.viewControllerWrapper = ViewController(viewController)
         interactor.delegate = InteractorDelegate(presenter)
@@ -59,8 +59,8 @@ extension AppCoordinator: ViewControllerConfiguring {
     func configureReminderListViewController() -> UIViewController {
         
         let interactor = ReminderListInteractor(dataManager: dataManager)
-        let wireFrame = ReminderListWireframe(appCoordinator: self)
-        let presenter = ReminderListPresenter(interactor: interactor, wireframe: wireFrame)
+        let wireframe = ReminderListWireframe(appCoordinator: self)
+        let presenter = ReminderListPresenter(interactor: interactor, wireframe: wireframe)
         let viewController = ReminderListViewController(presenter: presenter)
         presenter.viewControllerWrapper = ViewController(viewController)
         interactor.delegate = InteractorDelegate(presenter)

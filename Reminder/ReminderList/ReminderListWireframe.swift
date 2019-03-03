@@ -8,7 +8,11 @@
 
 import UIKit
 
-class ReminderListWireframe: WireFrameProtocol {
+protocol ReminderListWireFrameProtocol {
+    func goBackToHome(from viewController: UIViewController)
+}
+
+class ReminderListWireframe: ReminderListWireFrameProtocol {
     
     private let appCoordinator: ViewControllerConfiguring
     
@@ -17,7 +21,8 @@ class ReminderListWireframe: WireFrameProtocol {
         self.appCoordinator = appCoordinator
     }
     
-    func showReminderDetailPage(from viewController: UIViewController) {
-    
+    func goBackToHome(from viewController: UIViewController) {
+        
+        viewController.dismiss(animated: true, completion: nil)
     }
 }
