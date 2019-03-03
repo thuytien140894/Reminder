@@ -16,7 +16,7 @@ protocol CollectionViewCell {
 
 class ReminderListCell: UICollectionViewCell {
     
-    static let reuseIdentifier = "photoCell"
+    static let reuseIdentifier = "reminderListCell"
     
     private let descriptionView = UIStackView()
     private let title = UILabel()

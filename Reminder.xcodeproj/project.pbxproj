@@ -12,6 +12,8 @@
 		9BC75ADE0C91B2E8F9546D3B /* Pods_Reminder_ReminderUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF5681B86CEDF7F8FD320B1 /* Pods_Reminder_ReminderUITests.framework */; };
 		B6BECA25D2F0B0AA21AA2338 /* Pods_Reminder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C46BA55A45F8C41BAAC0525 /* Pods_Reminder.framework */; };
 		D67E867E81CDDD903C7AF7B3 /* Pods_ReminderTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 920DDA23AA0ECD698BD45F7F /* Pods_ReminderTests.framework */; };
+		E80997DF222B9BD400E7D7A7 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80997DE222B9BD400E7D7A7 /* TableViewController.swift */; };
+		E80997E1222B9EDB00E7D7A7 /* ReminderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80997E0222B9EDB00E7D7A7 /* ReminderCell.swift */; };
 		E84950A22206BD5A00643256 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84950A12206BD5A00643256 /* Utils.swift */; };
 		E849FC242225151B0049521A /* ReminderListWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = E849FC232225151B0049521A /* ReminderListWireframe.swift */; };
 		E85C651A22062FD40002E83F /* PagedHorizontalCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85C651922062FD40002E83F /* PagedHorizontalCollectionViewController.swift */; };
@@ -77,6 +79,8 @@
 		920DDA23AA0ECD698BD45F7F /* Pods_ReminderTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_ReminderTests.framework; path = "../Debug-iphonesimulator/Pods_ReminderTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B7885858D44223F9E8C470E /* Pods-ReminderTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReminderTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ReminderTests/Pods-ReminderTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C3F4BAAF98B6F9DBDA905897 /* Pods_Reminder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Reminder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E80997DE222B9BD400E7D7A7 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		E80997E0222B9EDB00E7D7A7 /* ReminderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderCell.swift; sourceTree = "<group>"; };
 		E84950A12206BD5A00643256 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		E849FC232225151B0049521A /* ReminderListWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderListWireframe.swift; sourceTree = "<group>"; };
 		E85C651922062FD40002E83F /* PagedHorizontalCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedHorizontalCollectionViewController.swift; sourceTree = "<group>"; };
@@ -270,6 +274,8 @@
 				E88B316A222335A7005FD63B /* Home */,
 				E85C6518220628920002E83F /* CollectionView */,
 				E8E127F62186A0BC00916B9C /* AppDelegate.swift */,
+				E80997DE222B9BD400E7D7A7 /* TableViewController.swift */,
+				E80997E0222B9EDB00E7D7A7 /* ReminderCell.swift */,
 				E8E128282186A19D00916B9C /* DataManager.swift */,
 				E8E128422186A55600916B9C /* GoogleService-Info.plist */,
 				E8E128242186A17100916B9C /* AppCoordinator.swift */,
@@ -606,6 +612,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E80997DF222B9BD400E7D7A7 /* TableViewController.swift in Sources */,
 				E88B317222233686005FD63B /* ReminderListPresenter.swift in Sources */,
 				E8E1282D2186A19D00916B9C /* HomePresenter.swift in Sources */,
 				E88B31672222933F005FD63B /* MockFirestore.swift in Sources */,
@@ -624,6 +631,7 @@
 				E8E128392186A2C900916B9C /* HorizontalCollectionView.swift in Sources */,
 				E8E1282A2186A19D00916B9C /* HomeViewController.swift in Sources */,
 				E8AB8341221A8D3A00D7987D /* FirestoreProtocols.swift in Sources */,
+				E80997E1222B9EDB00E7D7A7 /* ReminderCell.swift in Sources */,
 				E88B317022233644005FD63B /* User.swift in Sources */,
 				E8E1282F2186A1A400916B9C /* Reminder.swift in Sources */,
 				E85C651A22062FD40002E83F /* PagedHorizontalCollectionViewController.swift in Sources */,
