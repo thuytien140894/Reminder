@@ -13,9 +13,15 @@ class HomePageModel {
     private let app = XCUIApplication()
     
     private struct ElementLocator {
+        static let reminderListCollectionID = "reminderListCollection"
         static let reminderListCellID = "reminderListCell"
         static let reminderlistTitleID = "reminderListTitle"
         static let pageControlID = "pageControl"
+    }
+    
+    var reminderListCollection: XCUIElement {
+        
+        return app.otherElements[ElementLocator.reminderListCollectionID]
     }
     
     var reminderListCells: XCUIElementQuery {

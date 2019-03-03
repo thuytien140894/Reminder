@@ -14,7 +14,7 @@ class PagedHorizontalCollectionViewController: UIViewController {
         HorizontalCollectionView(frame: view.bounds)
     }()
     private let pageControl = UIPageControl()
-    private var indexOfMainCellOnScreen = 0
+    private var newCellIndex = 0
     private var numberOfCells: Int {
         return displayModels.count
     }
@@ -165,15 +165,41 @@ extension PagedHorizontalCollectionViewController: UICollectionViewDelegate {
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         
+        // Stop scrollview from sliding
         targetContentOffset.pointee = scrollView.contentOffset
-        indexOfMainCellOnScreen = getIndexOfMainCellOnScreen()
-        let indexPath = IndexPath(item: indexOfMainCellOnScreen, section: 0)
+        
+        guard !handleSwipeGestureIfNecessary(forVelocity: velocity) else { return }
+        newCellIndex = getIndexOfMainCellOnScreen()
+        scrollToTheNewCell()
+    }
+    
+    private func handleSwipeGestureIfNecessary(forVelocity velocity: CGPoint) -> Bool {
+        
+        let swipeVelocityLimit: CGFloat = 0.5
+        let didSwipeLeft = velocity.x > swipeVelocityLimit
+        let didSwipeRight = velocity.x < -swipeVelocityLimit
+        let didSwipe = didSwipeLeft || didSwipeRight
+        
+        guard didSwipe else { return false }
+        
+        newCellIndex = didSwipeLeft ?
+            min(numberOfCells - 1, newCellIndex + 1) :
+            max(0, newCellIndex - 1)
+        
+        scrollToTheNewCell()
+        
+        return true
+    }
+    
+    private func scrollToTheNewCell() {
+        
+        let indexPath = IndexPath(item: newCellIndex, section: 0)
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
-        pageControl.currentPage = indexOfMainCellOnScreen
+        pageControl.currentPage = newCellIndex
     }
     
     private func getIndexOfMainCellOnScreen() -> Int {

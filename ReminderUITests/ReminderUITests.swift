@@ -37,16 +37,24 @@ class ReminderUITests: XCTestCase {
         XCTAssert(app.navigationBars[reminderListTitle].exists)
     }
     
-    func testSwipingThroughReminderListCollectionShouldUpdatePageControl() {
+    func testSwipingLeftShouldGoToTheNextReminderList() {
         
         app.launch()
         
         XCTAssertEqual(homePageModel.pageControlValue, "page 1 of 3")
-        let selectedIndex = 1
-        let reminderList = homePageModel.reminderListCells.element(boundBy: selectedIndex)
-        let previousReminderList = homePageModel.reminderListCells.element(boundBy: selectedIndex - 1)
-        reminderList.press(forDuration: 0.5, thenDragTo: previousReminderList)
+        homePageModel.reminderListCollection.swipeLeft()
         
+        XCTAssertEqual(homePageModel.pageControlValue, "page 2 of 3")
+    }
+    
+    func testSwipingRightShouldGoBackToThePreviousReminderList() {
+        
+        app.launch()
+        
+        homePageModel.reminderListCollection.swipeLeft()
+        XCTAssertEqual(homePageModel.pageControlValue, "page 2 of 3")
+        
+        homePageModel.reminderListCollection.swipeRight()
         XCTAssertEqual(homePageModel.pageControlValue, "page 1 of 3")
     }
 }

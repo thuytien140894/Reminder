@@ -60,6 +60,8 @@ class HomeViewController: UIViewController {
         addChild(reminderListCollectionViewController)
         view.addSubview(reminderListCollectionViewController.view)
         reminderListCollectionViewController.didMove(toParent: self)
+        
+        reminderListCollectionViewController.view.accessibilityIdentifier = "reminderListCollection"
         reminderListCollectionViewController.register(cellClass: ReminderListCell.self, withReuseIdentifier: ReminderListCell.reuseIdentifier)
         setupReminderListCollectionViewConstraints()
     }
