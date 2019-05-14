@@ -6,42 +6,71 @@
 //  Copyright © 2018 Tien Thuy Ho. All rights reserved.
 //
 
-protocol HomePresenterProtocol: PresenterProtocol {
-    func selectReminderList(at index: Int)
+protocol ViewRenderable: class {
+    var state: HomePresenter.State { get set }
 }
 
-class HomePresenter: HomePresenterProtocol {
+protocol HomePresenterProtocol: ViewRenderable {
+    func loadView()
+}
+
+class HomePresenter: HomePresenterProtocol, ViewRenderable {
+    
+    enum State {
+        case initial
+        case loading
+        case loaded([ReminderList])
+        case select(Int)
+        case error(Error)
+    }
+    
+    var state: State = .initial {
+        didSet {
+            updateView()
+        }
+    }
     
     var viewControllerWrapper: ViewController<ReminderList>?
-    private let interactor: HomeInteractorProtocol
-    private let wireframe: HomeWireFrameProtocol
+    private let dataManager: DataManagerProtocol
+    private let coordinator: CoordinatorProtocol
     private var reminderLists: [ReminderList] = []
     
-    init(interactor: HomeInteractorProtocol, wireframe: HomeWireFrameProtocol) {
+    init(dataManager: DataManagerProtocol, coordinator: CoordinatorProtocol) {
         
-        self.interactor = interactor
-        self.wireframe = wireframe 
+        self.dataManager = dataManager
+        self.coordinator = coordinator
     }
     
     func loadView() {
         
-        interactor.fetchReminderLists()
+        state = .loading
+        dataManager.fetchReminderLists { [weak self] reminderLists in
+            guard let self = self else { return }
+            self.state = .loaded(reminderLists)
+        }
     }
     
-    func selectReminderList(at index: Int) {
+    private func updateView() {
         
-        interactor.setCurrentReminderList(reminderLists[index])
+        switch state {
+        case .loaded(let reminderLists):
+            reloadView(with: reminderLists)
+        case .select(let index):
+            selectReminderList(at: index)
+        default:
+            return
+        }
+    }
+    
+    private func reloadView(with reminderLists: [ReminderList]) {
+    
+        viewControllerWrapper?.reloadView(with: reminderLists)
+        self.reminderLists = reminderLists
+    }
+    
+    private func selectReminderList(at index: Int) {
         
         guard let viewController = viewControllerWrapper?.unwrap() else { return }
-        wireframe.showReminderDetailPage(from: viewController)
-    }
-}
-
-extension HomePresenter: InteractorDelegateProtocol {
-    
-    func fetched(displayData: [ReminderList]) {
-        
-        reminderLists = displayData
-        viewControllerWrapper?.reloadView(with: displayData)
+        coordinator.showReminderList(reminderLists[index], from: viewController)
     }
 }

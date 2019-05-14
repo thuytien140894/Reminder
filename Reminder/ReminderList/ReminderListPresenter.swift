@@ -6,38 +6,65 @@
 //  Copyright © 2019 Tien Thuy Ho. All rights reserved.
 //
 
-protocol ReminderListPresenterProtocol: PresenterProtocol {
+import UIKit
+
+protocol ReminderListPresenterProtocol {
+    var reminderList: ReminderList { get set }
+    func loadView()
     func goBackToHome()
 }
 
 class ReminderListPresenter: ReminderListPresenterProtocol {
     
-    var viewControllerWrapper: ViewController<Reminder>?
-    private let interactor: ReminderListInteractorProtocol
-    private let wireframe: ReminderListWireFrameProtocol
+    var reminderList: ReminderList = ReminderList(title: "")
     
-    init(interactor: ReminderListInteractorProtocol, wireframe: ReminderListWireFrameProtocol) {
+    enum State {
+        case initial
+        case loading
+        case loaded([Reminder])
+        case error(Error)
+    }
+    
+    var state: State = .initial {
+        didSet {
+            updateView()
+        }
+    }
+    
+    var viewControllerWrapper: ViewController<Reminder>?
+    unowned var viewController: ReminderListViewController!
+    private let dataManager: DataManagerProtocol
+    private let coordinator: CoordinatorProtocol
+    
+    init(dataManager: DataManagerProtocol, coordinator: CoordinatorProtocol) {
         
-        self.interactor = interactor
-        self.wireframe = wireframe
+        self.dataManager = dataManager
+        self.coordinator = coordinator
     }
     
     func loadView() {
         
-        interactor.fetchReminders()
+        viewController.title = reminderList.title
+        
+        state = .loading
+        dataManager.fetchReminders(from: reminderList) { [weak self] reminders in
+            guard let self = self else { return }
+            self.state = .loaded(reminders)
+        }
     }
     
     func goBackToHome() {
         
-        guard let viewController = viewControllerWrapper?.unwrap() else { return }
-        wireframe.goBackToHome(from: viewController)
+        coordinator.goBackToHome(from: viewController)
     }
-}
-
-extension ReminderListPresenter: InteractorDelegateProtocol {
     
-    func fetched(displayData: [Reminder]) {
+    private func updateView() {
         
-        viewControllerWrapper?.reloadView(with: displayData)
+        switch state {
+        case .loaded(let reminders):
+            viewControllerWrapper?.reloadView(with: reminders)
+        default:
+            return
+        }
     }
 }

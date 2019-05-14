@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol ViewControllerNavigable: class {
-    func selectItem(at index: Int)
-}
-
 class HomeViewController: UIViewController {
 
     private let presenter: HomePresenterProtocol
@@ -61,6 +57,7 @@ class HomeViewController: UIViewController {
         view.addSubview(reminderListCollectionViewController.view)
         reminderListCollectionViewController.didMove(toParent: self)
         
+        reminderListCollectionViewController.viewRenderer = presenter
         reminderListCollectionViewController.view.accessibilityIdentifier = "reminderListCollection"
         reminderListCollectionViewController.register(cellClass: ReminderListCell.self, withReuseIdentifier: ReminderListCell.reuseIdentifier)
         setupReminderListCollectionViewConstraints()
@@ -102,13 +99,5 @@ extension HomeViewController: ViewControllerProtocol {
         
         reminderListCollectionViewController.reload(with: displayData)
         print(displayData)
-    }
-}
-
-extension HomeViewController: ViewControllerNavigable {
-    
-    func selectItem(at index: Int) {
-        
-        presenter.selectReminderList(at: index)
     }
 }

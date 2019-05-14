@@ -18,7 +18,15 @@ class PagedHorizontalCollectionViewController: UIViewController {
     private var numberOfCells: Int {
         return displayModels.count
     }
-    private var displayModels: [CollectionViewCellDisplayable] = []
+    private var displayModels: [ReminderList] = [] {
+        didSet {
+            dataSource?.displayModels = displayModels
+            pageControl.numberOfPages = numberOfCells
+        }
+    }
+    private var dataSource: CollectionViewDataSource<ReminderList>?
+    
+    weak var viewRenderer: ViewRenderable?
     
     private struct UIConstants {
         static let cellHeightRatio: CGFloat = 1.25
@@ -34,6 +42,8 @@ class PagedHorizontalCollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         
+        super.viewDidLoad()
+        
         setupCollectionView()
         setupPageControl()
     }
@@ -42,7 +52,6 @@ class PagedHorizontalCollectionViewController: UIViewController {
         
         collectionView.backgroundColor = .red
         collectionView.setCellHeight(ratioToWidth: UIConstants.cellHeightRatio)
-        collectionView.dataSource = self
         collectionView.delegate = self
         view.addSubview(collectionView)
         setupCollectionViewConstraints()
@@ -92,50 +101,18 @@ class PagedHorizontalCollectionViewController: UIViewController {
         reuseIdentifier: String) {
         
         collectionView.register(cellClass, forCellWithReuseIdentifier: reuseIdentifier)
-        collectionView.reuseIdentifier = reuseIdentifier
+        dataSource = CollectionViewDataSource(displayModels: displayModels, reuseIdentifier: reuseIdentifier)
+        collectionView.dataSource = dataSource
     }
     
     func reload(with displayModels: [ReminderList]) {
         
         self.displayModels = displayModels
-        pageControl.numberOfPages = numberOfCells
         collectionView.reloadData()
     }
 }
 
-extension PagedHorizontalCollectionViewController: UICollectionViewDataSource {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        return numberOfCells
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.collectionView.reuseIdentifier, for: indexPath)
-        guard
-            let reminderCell = cell as? CollectionViewCell,
-            Utils.isNotOutOfBounds(index: indexPath.item, arrayCount: displayModels.count) else { return cell }
-        
-        reminderCell.updateDisplay(with: displayModels[indexPath.item])
-        
-        return cell
-    }
-}
-
 extension PagedHorizontalCollectionViewController: UICollectionViewDelegate {
-    
-    /*
-     // Uncomment this method to specify if the specified item should be highlighted during tracking
-     override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-     return true
-     }
-     */
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         
@@ -144,24 +121,8 @@ extension PagedHorizontalCollectionViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard let parentViewController = parent as? ViewControllerNavigable else { return }
-        parentViewController.selectItem(at: indexPath.item)
+        viewRenderer?.state = .select(indexPath.item)
     }
-        
-    /*
-     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-     override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-     return false
-     }
-     
-     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-     return false
-     }
-     
-     override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-     
-     }
-     */
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         

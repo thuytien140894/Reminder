@@ -10,23 +10,20 @@ import FirebaseFirestore
 
 protocol DataManagerProtocol {
     func fetchReminderLists(completion: @escaping ([ReminderList]) -> Void)
-    func fetchReminders(completion: (([Reminder]) -> Void)?)
+    func fetchReminders(from reminderList: ReminderList, completion: (([Reminder]) -> Void)?)
     func addUser(_ user: ReminderUser)
     func addReminderList(_ reminderList: ReminderList)
-    func addReminder(_ reminder: Reminder) -> String
+    func addReminder(_ reminder: Reminder, to reminderList: ReminderList) -> String
     func removeReminderList(_ reminderList: ReminderList)
-    func removeReminder(_ reminder: Reminder)
+    func removeReminder(_ reminder: Reminder, from reminderList: ReminderList)
     func removeAllReminderLists()
     func removeAllReminders(from reminderList: ReminderList)
-    func removeAllReminders()
     func resetDatabase()
-    func setCurrentReminderList(_ reminderList: ReminderList)
 }
 
 class DataManager {
     
     private var currentUser = ReminderUser(name: "Tien")
-    private var currentReminderList: ReminderList?
     private let database: FirestoreProtocol
     private var reminderListCollection: CollectionReference
     private var userCollection: CollectionReference
@@ -55,8 +52,8 @@ class DataManager {
             isCompleted: false
         )
         
-        currentReminderList = ReminderList(title: "Home")
-        reminder.identifier = addReminder(reminder)
+        let reminderList = ReminderList(title: "Home")
+        reminder.identifier = addReminder(reminder, to: reminderList)
     }
 }
 
@@ -73,10 +70,9 @@ extension DataManager: DataManagerProtocol {
         }
     }
     
-    func fetchReminders(completion: (([Reminder]) -> Void)? = nil) {
+    func fetchReminders(from reminderList: ReminderList, completion: (([Reminder]) -> Void)? = nil) {
         
-        guard let currentReminderList = currentReminderList else { return }
-        let reminderListID = getID(for: currentReminderList)
+        let reminderListID = getID(for: reminderList)
         let reminderListDocument = reminderListCollection.document(reminderListID)
         let reminderCollection = getReminders(for: reminderListDocument)
         
@@ -132,11 +128,9 @@ extension DataManager: DataManagerProtocol {
         }
     }
     
-    func addReminder(_ reminder: Reminder) -> String {
+    func addReminder(_ reminder: Reminder, to reminderList: ReminderList) -> String {
         
-        guard let currentReminderList = currentReminderList else { return "" }
-        
-        let reminderListID = getID(for: currentReminderList)
+        let reminderListID = getID(for: reminderList)
         let reminderListDocument = reminderListCollection.document(reminderListID)
         reminderListDocument.setData([:])
         let reminderCollection = getReminders(for: reminderListDocument)
@@ -148,11 +142,9 @@ extension DataManager: DataManagerProtocol {
         return reminderDocument.documentID
     }
     
-    func removeReminder(_ reminder: Reminder) {
+    func removeReminder(_ reminder: Reminder, from reminderList: ReminderList) {
         
-        guard let currentReminderList = currentReminderList else { return }
-        
-        let reminderListID = getID(for: currentReminderList)
+        let reminderListID = getID(for: reminderList)
         let reminderListDocument = reminderListCollection.document(reminderListID)
         let reminderCollection = getReminders(for: reminderListDocument)
         let reminderDocument = reminderCollection.document(reminder.identifier)
@@ -162,16 +154,6 @@ extension DataManager: DataManagerProtocol {
     func removeAllReminders(from reminderList: ReminderList) {
         
         let reminderListID = getID(for: reminderList)
-        let reminderListDocument = reminderListCollection.document(reminderListID)
-        let reminderCollection = getReminders(for: reminderListDocument)
-        removeAllDocuments(from: reminderCollection)
-    }
-    
-    func removeAllReminders() {
-        
-        guard let currentReminderList = currentReminderList else { return }
-        
-        let reminderListID = getID(for: currentReminderList)
         let reminderListDocument = reminderListCollection.document(reminderListID)
         let reminderCollection = getReminders(for: reminderListDocument)
         removeAllDocuments(from: reminderCollection)
@@ -217,10 +199,5 @@ extension DataManager: DataManagerProtocol {
         
         removeAllDocuments(from: userCollection, andSubcollection: "reminderLists")
         removeAllDocuments(from: reminderListCollection, andSubcollection: "reminders")
-    }
-    
-    func setCurrentReminderList(_ reminderList: ReminderList) {
-        
-        currentReminderList = reminderList
     }
 }

@@ -13,16 +13,22 @@ protocol AppLaunching {
     func launch(for window: UIWindow?)
 }
 
-protocol ViewControllerConfiguring {
+protocol ViewControllerConfiguring: class {
     func configureHomeViewController() -> UIViewController
-    func configureReminderListViewController() -> UIViewController
+    func configureReminderListViewController(with reminderList: ReminderList) -> UIViewController
 }
 
 class AppCoordinator {
     
+    private weak var coordinator: CoordinatorProtocol?
     private lazy var dataManager: DataManager = {
         setupDataManager()
     }()
+    
+    init() {
+        
+        coordinator = Coordinator(appConfigurer: self)
+    }
     
     private func setupDataManager() -> DataManager {
         
@@ -46,24 +52,20 @@ extension AppCoordinator: ViewControllerConfiguring {
     
     func configureHomeViewController() -> UIViewController {
         
-        let interactor = HomeInteractor(dataManager: dataManager)
-        let wireframe = HomeWireFrame(appCoordinator: self)
-        let presenter = HomePresenter(interactor: interactor, wireframe: wireframe)
+        let presenter = HomePresenter(dataManager: dataManager, coordinator: coordinator ?? Coordinator(appConfigurer: self))
         let viewController = HomeViewController(presenter: presenter)
         presenter.viewControllerWrapper = ViewController(viewController)
-        interactor.delegate = InteractorDelegate(presenter)
         
         return viewController
     }
     
-    func configureReminderListViewController() -> UIViewController {
+    func configureReminderListViewController(with reminderList: ReminderList) -> UIViewController {
         
-        let interactor = ReminderListInteractor(dataManager: dataManager)
-        let wireframe = ReminderListWireframe(appCoordinator: self)
-        let presenter = ReminderListPresenter(interactor: interactor, wireframe: wireframe)
+        let presenter = ReminderListPresenter(dataManager: dataManager, coordinator: coordinator ?? Coordinator(appConfigurer: self))
         let viewController = ReminderListViewController(presenter: presenter)
+        presenter.reminderList = reminderList
+        presenter.viewController = viewController
         presenter.viewControllerWrapper = ViewController(viewController)
-        interactor.delegate = InteractorDelegate(presenter)
         
         return viewController
     }

@@ -29,6 +29,8 @@ class ReminderListViewController: UIViewController {
 
         setupNavigationBar()
         setupUI()
+        
+        presenter.loadView()
     }
     
     private func setupUI() {
@@ -38,7 +40,8 @@ class ReminderListViewController: UIViewController {
     
     private func setupNavigationBar() {
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didCancel))
+        let dismissButtonIcon = UIImage(named: "dismiss_button", in: Bundle(for: type(of: self)), compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: dismissButtonIcon, style: .plain, target: self, action: #selector(didCancel))
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true

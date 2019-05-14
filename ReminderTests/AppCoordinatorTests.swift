@@ -21,7 +21,7 @@ class AppCoordinatorTests: XCTestCase {
     
     func testConfiguringReminderListViewController() {
         
-        let viewController = appCoordinator.configureReminderListViewController()
+        let viewController = appCoordinator.configureReminderListViewController(with: ReminderList(title: ""))
         XCTAssertNotNil(viewController)
     }
     

@@ -21,7 +21,7 @@ class MockDataManager: DataManagerProtocol {
         completion(reminderLists)
     }
     
-    func fetchReminders(completion: (([Reminder]) -> Void)? = nil) {
+    func fetchReminders(from reminderList: ReminderList, completion: (([Reminder]) -> Void)? = nil) {
         
         completion?(reminders)
     }
@@ -36,7 +36,7 @@ class MockDataManager: DataManagerProtocol {
         reminderLists.append(reminderList)
     }
     
-    func addReminder(_ reminder: Reminder) -> String {
+    func addReminder(_ reminder: Reminder, to reminderList: ReminderList) -> String {
 
         reminders.append(reminder)
         return UUID().uuidString
@@ -47,7 +47,7 @@ class MockDataManager: DataManagerProtocol {
         reminderLists = reminderLists.filter { $0 != reminderList }
     }
     
-    func removeReminder(_ reminder: Reminder) {
+    func removeReminder(_ reminder: Reminder, from reminderList: ReminderList) {
         
         reminders = reminders.filter { $0 != reminder }
     }
@@ -63,20 +63,9 @@ class MockDataManager: DataManagerProtocol {
         matchedReminderList?.reset()
     }
     
-    func removeAllReminders() {
-        
-        reminders.removeAll()
-        currentReminderList?.reset()
-    }
-    
     func resetDatabase() {
         
         reminderLists.removeAll()
         reminders.removeAll()
-    }
-    
-    func setCurrentReminderList(_ reminderList: ReminderList) {
-        
-        currentReminderList = reminderList
     }
 }

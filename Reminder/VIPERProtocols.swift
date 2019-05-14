@@ -38,27 +38,3 @@ class ViewController<T: Displayable>: ViewControllerProtocol {
         return viewController
     }
 }
-
-protocol PresenterProtocol: class {
-    func loadView()
-}
-
-protocol InteractorDelegateProtocol: class {
-    associatedtype DisplayObject: Displayable
-    func fetched(displayData: [DisplayObject])
-}
-
-class InteractorDelegate<T: Displayable>: InteractorDelegateProtocol {
-    
-    private let _fetched: (_ displayData: [T]) -> Void
-    
-    init<U: InteractorDelegateProtocol>(_ interactorDelegate: U) where U.DisplayObject == T {
-        
-        _fetched = interactorDelegate.fetched
-    }
-    
-    func fetched(displayData: [T]) {
-        
-        _fetched(displayData)
-    }
-}
