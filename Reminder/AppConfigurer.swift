@@ -1,5 +1,5 @@
 //
-//  AppCoordinator.swift
+//  AppConfigurer.swift
 //  Reminder
 //
 //  Created by Tien Thuy Ho on 10/27/18.
@@ -18,7 +18,7 @@ protocol ViewControllerConfiguring: class {
     func configureReminderListViewController(with reminderList: ReminderList) -> UIViewController
 }
 
-class AppCoordinator {
+class AppConfigurer {
     
     private weak var coordinator: CoordinatorProtocol?
     private lazy var dataManager: DataManager = {
@@ -48,7 +48,7 @@ class AppCoordinator {
     }
 }
 
-extension AppCoordinator: ViewControllerConfiguring {
+extension AppConfigurer: ViewControllerConfiguring {
     
     func configureHomeViewController() -> UIViewController {
         
@@ -71,7 +71,7 @@ extension AppCoordinator: ViewControllerConfiguring {
     }
 }
 
-extension AppCoordinator: AppLaunching {
+extension AppConfigurer: AppLaunching {
     
     func launch(for window: UIWindow?) {
         

@@ -16,14 +16,14 @@ class MockDataManager: DataManagerProtocol {
     private var reminders: [Reminder] = []
     private var currentReminderList: ReminderList?
     
-    func fetchReminderLists(completion: @escaping ([ReminderList]) -> Void) {
+    func fetchReminderLists(completion: @escaping (Result<[ReminderList], NetworkError>) -> Void) {
         
-        completion(reminderLists)
+        completion(.success(reminderLists))
     }
     
-    func fetchReminders(from reminderList: ReminderList, completion: (([Reminder]) -> Void)? = nil) {
+    func fetchReminders(from reminderList: ReminderList, completion: ((Result<[Reminder], NetworkError>) -> Void)? = nil) {
         
-        completion?(reminders)
+        completion?(.success(reminders))
     }
     
     func addUser(_ user: ReminderUser) {

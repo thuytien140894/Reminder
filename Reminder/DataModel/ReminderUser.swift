@@ -1,5 +1,5 @@
 //
-//  User.swift
+//  ReminderUser.swift
 //  Reminder
 //
 //  Created by Tien Thuy Ho on 2/24/19.

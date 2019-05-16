@@ -47,9 +47,14 @@ class ReminderListPresenter: ReminderListPresenterProtocol {
         viewController.title = reminderList.title
         
         state = .loading
-        dataManager.fetchReminders(from: reminderList) { [weak self] reminders in
+        dataManager.fetchReminders(from: reminderList) { [weak self] result in
             guard let self = self else { return }
-            self.state = .loaded(reminders)
+            switch result {
+            case .success(let reminders):
+                self.state = .loaded(reminders)
+            case .failure(let error):
+                self.state = .error(error)
+            }
         }
     }
     

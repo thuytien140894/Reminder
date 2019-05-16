@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        let appLauncher = AppCoordinator()
+        let appLauncher = AppConfigurer()
         appLauncher.launch(for: window)
         
         return true

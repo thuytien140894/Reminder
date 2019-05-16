@@ -22,9 +22,12 @@ class DataManagerTests: XCTestCase {
     
     func testFetchingReminderLists() {
         
-        let reminderLists = addSomeReminderLists()
+        let addedReminderLists = addSomeReminderLists()
 
-        let completionBlock: ([ReminderList]) -> Void = { addedReminderLists in
+        let completionBlock: (Result<[ReminderList], NetworkError>) -> Void = { result in
+            guard let reminderLists = self.unwrapSuccess(result: result) else {
+                return XCTFail("Error is thrown.")
+            }
             XCTAssert(addedReminderLists.elementsEqual(reminderLists))
         }
         dataManager.fetchReminderLists(completion: completionBlock)
@@ -36,7 +39,10 @@ class DataManagerTests: XCTestCase {
         let reminderListToAdd = ReminderList(title: "Reminder List")
         dataManager.addReminderList(reminderListToAdd)
         
-        let completionBlock: ([ReminderList]) -> Void = { reminderLists in
+        let completionBlock: (Result<[ReminderList], NetworkError>) -> Void = { result in
+            guard let reminderLists = self.unwrapSuccess(result: result) else {
+                return XCTFail("Error is thrown.")
+            }
             XCTAssert(reminderLists.contains(reminderListToAdd))
         }
         dataManager.fetchReminderLists(completion: completionBlock)
@@ -48,7 +54,10 @@ class DataManagerTests: XCTestCase {
         let reminderListToRemove = addedReminderLists[0]
         dataManager.removeReminderList(reminderListToRemove)
         
-        let completionBlock: ([ReminderList]) -> Void = { reminderLists in
+        let completionBlock: (Result<[ReminderList], NetworkError>) -> Void = { result in
+            guard let reminderLists = self.unwrapSuccess(result: result) else {
+                return XCTFail("Error is thrown.")
+            }
             XCTAssert(addedReminderLists.contains(where: reminderLists.contains))
             XCTAssertFalse(reminderLists.contains(reminderListToRemove))
         }
@@ -60,7 +69,10 @@ class DataManagerTests: XCTestCase {
         addSomeReminderLists()
         dataManager.removeAllReminderLists()
     
-        let completionBlock: ([ReminderList]) -> Void = { reminderLists in
+        let completionBlock: (Result<[ReminderList], NetworkError>) -> Void = { result in
+            guard let reminderLists = self.unwrapSuccess(result: result) else {
+                return XCTFail("Error is thrown.")
+            }
             XCTAssertEqual(reminderLists.count, 0)
         }
         dataManager.fetchReminderLists(completion: completionBlock)
@@ -80,9 +92,12 @@ class DataManagerTests: XCTestCase {
     
     func testFetchingReminders() {
         
-        let reminders = addSomeReminders()
+        let addedReminders = addSomeReminders()
         
-        let completionBlock: ([Reminder]) -> Void = { addedReminders in
+        let completionBlock: (Result<[Reminder], NetworkError>) -> Void = { result in
+            guard let reminders = self.unwrapSuccess(result: result) else {
+                return XCTFail("Error is thrown.")
+            }
             XCTAssert(addedReminders.elementsEqual(reminders))
         }
         dataManager.fetchReminders(from: ReminderList(title: "Home"), completion: completionBlock)
@@ -95,7 +110,10 @@ class DataManagerTests: XCTestCase {
         let reminderList = ReminderList(title: "Home")
         dataManager.removeReminder(reminderToRemove, from: reminderList)
         
-        let completionBlock: ([Reminder]) -> Void = { reminders in
+        let completionBlock: (Result<[Reminder], NetworkError>) -> Void = { result in
+            guard let reminders = self.unwrapSuccess(result: result) else {
+                return XCTFail("Error is thrown.")
+            }
             XCTAssert(addedReminders.contains(where: reminders.contains))
             XCTAssertFalse(reminders.contains(reminderToRemove))
         }
@@ -108,7 +126,10 @@ class DataManagerTests: XCTestCase {
         let reminderList = ReminderList(title: "Home")
         dataManager.removeAllReminders(from: reminderList)
         
-        let completionBlock: ([Reminder]) -> Void = { reminders in
+        let completionBlock: (Result<[Reminder], NetworkError>) -> Void = { result in
+            guard let reminders = self.unwrapSuccess(result: result) else {
+                return XCTFail("Error is thrown.")
+            }
             XCTAssertEqual(reminders.count, 0)
         }
         dataManager.fetchReminders(from: reminderList, completion: completionBlock)
@@ -135,5 +156,15 @@ class DataManagerTests: XCTestCase {
         reminder2.identifier = dataManager.addReminder(reminder2, to: ReminderList(title: "Home"))
         
         return [reminder1, reminder2]
+    }
+    
+    private func unwrapSuccess<T, E: Error>(result: Result<T, E>) -> T? {
+        
+        switch result {
+        case .success(let value):
+            return value
+        case .failure:
+            return nil
+        }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  AppCoordinatorTests.swift
+//  AppConfigurerTests.swift
 //  ReminderTests
 //
 //  Created by Tien Thuy Ho on 2/26/19.
@@ -9,9 +9,9 @@
 import XCTest
 @testable import Reminder
 
-class AppCoordinatorTests: XCTestCase {
+class AppConfigurerTests: XCTestCase {
     
-    private let appCoordinator = AppCoordinator()
+    private let appCoordinator = AppConfigurer()
     
     func testConfiguringHomeViewController() {
         

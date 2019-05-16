@@ -44,9 +44,14 @@ class HomePresenter: HomePresenterProtocol, ViewRenderable {
     func loadView() {
         
         state = .loading
-        dataManager.fetchReminderLists { [weak self] reminderLists in
+        dataManager.fetchReminderLists { [weak self] result in
             guard let self = self else { return }
-            self.state = .loaded(reminderLists)
+            switch result {
+            case .success(let reminderLists):
+                self.state = .loaded(reminderLists)
+            case .failure(let error):
+                self.state = .error(error)
+            }
         }
     }
     
