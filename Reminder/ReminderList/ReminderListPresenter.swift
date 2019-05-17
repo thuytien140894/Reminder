@@ -32,7 +32,7 @@ class ReminderListPresenter: ReminderListPresenterProtocol {
     }
     
     var viewControllerWrapper: ViewController<Reminder>?
-    unowned var viewController: ReminderListViewController!
+    weak var viewController: ReminderListViewController?
     private let dataManager: DataManagerProtocol
     private let coordinator: CoordinatorProtocol
     
@@ -44,7 +44,7 @@ class ReminderListPresenter: ReminderListPresenterProtocol {
     
     func loadView() {
         
-        viewController.title = reminderList.title
+        viewController?.title = reminderList.title
         
         state = .loading
         dataManager.fetchReminders(from: reminderList) { [weak self] result in
@@ -60,6 +60,7 @@ class ReminderListPresenter: ReminderListPresenterProtocol {
     
     func goBackToHome() {
         
+        guard let viewController = viewController else { return }
         coordinator.goBackToHome(from: viewController)
     }
     
